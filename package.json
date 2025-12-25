@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "PORT=3001 node ./bin/www",
+    "pm2:start": "pm2 --name hello-oidc --time start npm -- run start",
+    "pm2:stop": "pm2 delete hello-oidc || true",
+    "pm2:logs": "pm2 logs hello-oidc"
   },
   "dependencies": {
     "@hellocoop/express": "^1.19.9",
