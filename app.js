@@ -7,10 +7,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var helloConfig = require('./hello.config.js');
-var hello = require('@hellocoop/express');
+var { helloAuth, setAuth, unauthorized } = require('@hellocoop/express');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -25,10 +26,11 @@ app.use(express.text());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(hello.helloAuth(helloConfig));
+app.use(helloAuth(helloConfig));
 
 app.use('/', indexRouter);
-app.use('/users', hello.setAuth, usersRouter);
+app.use('/user', setAuth, userRouter);
+app.use('/admin', unauthorized, adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
